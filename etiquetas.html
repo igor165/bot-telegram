@@ -181,6 +181,49 @@
             background-color: #107c10;
             color: white;
         }
+        /* --- ESTILOS PARA IMPRESSÃO --- */
+        @media print {
+            /* Esconde o corpo inteiro por padrão */
+            body * {
+                visibility: hidden;
+            }
+
+            /* Torna visível APENAS a área de dados e seu conteúdo */
+            #data-screen, #data-screen * {
+                visibility: visible;
+            }
+
+            /* Posiciona a área de dados para ocupar a página inteira */
+            #data-screen {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none; /* Remove sombras */
+                border: none; /* Remove bordas */
+                border-radius: 0;
+            }
+
+            /* Esconde o cabeçalho com os botões de ação */
+            .header {
+                display: none;
+            }
+            
+            /* Garante que o conteúdo principal use todo o espaço */
+            .content {
+                padding: 0;
+            }
+            
+            /* Melhora a legibilidade da tabela no papel */
+            .data-grid {
+                font-size: 9pt; /* Tamanho de fonte ideal para impressão */
+                color: #000;
+            }
+            
+            .data-grid th, .data-grid td {
+                border: 1px solid #666;
+            }
+        }
     </style>
 </head>
 <body>
@@ -204,6 +247,7 @@
         <header class="header">
             <h1>Etiquetas de Entrada - Pré-Note Fiscal de Entrada</h1>
             <div class="header-actions">
+                <button id="print-danfe-btn" class="btn btn-default">Imprimir DANFE</button>
                 <button class="btn btn-default">Outras Ações</button>
                 <button class="btn btn-default">Log</button>
                 <button class="btn btn-default">Fechar</button>
@@ -326,6 +370,13 @@
         const loginForm = document.getElementById('login-form');
         const loginScreen = document.getElementById('login-screen');
         const dataScreen = document.getElementById('data-screen');
+        const printDanfeBtn = document.getElementById('print-danfe-btn');
+
+        // Adiciona um "ouvinte" para o evento de clique no botão
+        printDanfeBtn.addEventListener('click', function() {
+            // Chama a função de impressão do navegador
+            window.print();
+        });
 
         // Adiciona um "ouvinte" para o evento de envio do formulário de login
         loginForm.addEventListener('submit', function(event) {
@@ -335,6 +386,7 @@
             // Pega os valores digitados pelo usuário
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            // Pega o novo botão pelo ID que criamos
 
             // --- LÓGICA DE LOGIN FICTÍCIA ---
             // No futuro, aqui você fará uma chamada para a sua API Protheus.
